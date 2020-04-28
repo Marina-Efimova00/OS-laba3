@@ -7,7 +7,8 @@ namespace laba3
     public class MemoryManagment
     {
         private Process process;
-        private List<Page> clock;
+        private List <Page>  clock;
+        private OperatingSystem system;
         public MemoryManagment()
         {
             process = new Process(5, 15);
@@ -28,10 +29,10 @@ namespace laba3
             }
             else
             {
-                int emptyPageId = OperatingSystem.memory.getEmptyPageId();
+                int emptyPageId = system.getMemory().getEmptyPageId();
                 if (emptyPageId != -1)
                 {
-                    OperatingSystem.memory.setPage(emptyPageId, page);
+                    system.getMemory().setPage(emptyPageId, page);
                     page.setRecourse(true);
                     page.setPresence(true);
                     page.setPhysicalAddress(emptyPageId);
@@ -41,8 +42,8 @@ namespace laba3
                 {
                     while (true)
                     {
-                        Page replacePage = this.clock[0];
-                        clock.RemoveAt(clock.Count - 1);
+                        Page replacePage = this.clock[0];                   
+                        clock.RemoveAt(clock.Count-1);
                         if (replacePage.isRecourse())
                         {
                             replacePage.setRecourse(false);
@@ -52,12 +53,12 @@ namespace laba3
                         {
                             if (replacePage.getVirtualAddress() != -1)
                             {
-                                OperatingSystem.memory.setPage(replacePage.getPhysicalAddress(),
+                                system.getMemory().setPage(replacePage.getPhysicalAddress(),
                                       OperatingSystem.returnPage(replacePage.getVirtualAddress()));
                             }
                             else
                             {
-                                OperatingSystem.memory.setPage(replacePage.getPhysicalAddress(), page);
+                                system.getMemory().setPage(replacePage.getPhysicalAddress(), page);
                             }
                             page.setRecourse(true);
                             page.setPresence(true);
@@ -73,5 +74,6 @@ namespace laba3
             }
             return page;
         }
+
     }
 }

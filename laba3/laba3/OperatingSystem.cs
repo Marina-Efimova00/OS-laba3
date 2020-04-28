@@ -83,5 +83,9 @@ namespace laba3
         {
             return pages[pageId];
         }
+        public Memory getMemory()
+        {
+            return memory;
+        }
     }
 }
